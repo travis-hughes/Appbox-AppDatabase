@@ -15,11 +15,20 @@ services:
     labels:
       - "com.dokku.coredns-docker/hostname=$APP_NAME"
       - "traefik.enable=true"
-      - "traefik.http.routers.$APP_NAME.rule=Host(`$DOMAIN_NAME`)"
-      - "traefik.http.routers.$APP_NAME.entrypoints=websecure"
-      - "traefik.http.routers.$APP_NAME.tls=true"
-      - "traefik.http.routers.$APP_NAME.tls.certresolver=letsencrypt"
-      - "traefik.http.services.$APP_NAME.loadbalancer.server.port=8096"
+      # --- HTTPS Router ---
+      - "traefik.http.routers.${APP_NAME}-secure.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.${APP_NAME}-secure.entrypoints=websecure"
+      - "traefik.http.routers.${APP_NAME}-secure.tls=true"
+      - "traefik.http.routers.${APP_NAME}-secure.tls.certresolver=letsencrypt"
+      
+      # --- HTTP Router (with automatic HTTPS redirect) ---
+      - "traefik.http.routers.${APP_NAME}-http.rule=Host(`${DOMAIN_NAME}`)"
+      - "traefik.http.routers.${APP_NAME}-http.entrypoints=web"
+      - "traefik.http.routers.${APP_NAME}-http.middlewares=redirect-to-https"
+      - "traefik.http.middlewares=redirect-to-https.redirectscheme.scheme=https"
+      
+      # --- Service Definition ---
+      - "traefik.http.services.${APP_NAME}.loadbalancer.server.port=8096"
 
 
 networks:
