@@ -1,0 +1,3 @@
+title: Jellyfin
+description: All in one place for your Movies, TV Shows and Music.
+logo_url: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/jellyfin.svg

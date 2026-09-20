@@ -1,0 +1,28 @@
+services:
+  jellyfin:
+    container_name: $APP_NAME
+    image: jellyfin/jellyfin:latest
+    hostname: $APP_NAME
+    restart: unless-stopped
+    networks:
+      - appbox
+    ports:
+      - 8096:8096
+    volumes:
+      - $APPDATA_PATH/config:/config
+      - $APPDATA_PATH/cache:/cache
+      - $APPDATA_PATH/Media:/media
+    labels:
+      - "com.dokku.coredns-docker/hostname=$DOMAIN_NAME"
+      - "traefik.enable=true"
+      - "traefik.http.routers.$APP_NAME.rule=Host(`$DOMAIN_NAME`)"
+      - "traefik.http.routers.$APP_NAME.entrypoints=websecure"
+      - "traefik.http.routers.$APP_NAME.tls=true"
+      - "traefik.http.routers.$APP_NAME.tls.certresolver=letsencrypt"
+      - "traefik.http.services.$APP_NAME.loadbalancer.server.port=8096"
+
+
+networks:
+  appbox:
+    name: appbox
+    external: true

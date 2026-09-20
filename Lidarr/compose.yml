@@ -1,0 +1,15 @@
+services:
+  lidarr:
+    container_name: lidarr
+    image: lscr.io/linuxserver/lidarr:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - $APPDATA_PATH/config:/config
+      - $STORAGE_PATH/Media/Music:/music
+      - $STORAGE_PATH/Media/Downloads:/downloads
+    ports:
+      - 8686:8686
+    restart: unless-stopped
