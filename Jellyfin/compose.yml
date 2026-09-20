@@ -7,13 +7,13 @@ services:
     networks:
       - appbox
     ports:
-      - 8096:8096
+      - $IP_ADDRESS:8096:8096
     volumes:
       - $APPDATA_PATH/config:/config
       - $APPDATA_PATH/cache:/cache
       - $APPDATA_PATH/Media:/media
     labels:
-      - "com.dokku.coredns-docker/hostname=$DOMAIN_NAME"
+      - "com.dokku.coredns-docker/hostname=$APP_NAME"
       - "traefik.enable=true"
       - "traefik.http.routers.$APP_NAME.rule=Host(`$DOMAIN_NAME`)"
       - "traefik.http.routers.$APP_NAME.entrypoints=websecure"
