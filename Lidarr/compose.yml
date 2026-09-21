@@ -3,6 +3,8 @@ services:
     container_name: $GLOBAL_APP_NAME
     image: lscr.io/linuxserver/lidarr:latest
     restart: unless-stopped
+    networks:
+      - appbox
     environment:
       - PUID=1000
       - PGID=1000
@@ -27,3 +29,9 @@ services:
       
       # --- Service Definition
       - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=8686"
+
+
+networks:
+  appbox:
+    name: appbox
+    external: true
