@@ -26,7 +26,7 @@ services:
       - "traefik.http.routers.${GLOBAL_APP_NAME}-http.rule=Host(`${GLOBAL_DOMAIN}`)"
       - "traefik.http.routers.${GLOBAL_APP_NAME}-http.entrypoints=web"
       - "traefik.http.routers.${GLOBAL_APP_NAME}-http.middlewares=redirect-to-https"
-      - "traefik.http.middlewares=redirect-to-https.redirectscheme.scheme=https"
+      # - "traefik.http.middlewares=redirect-to-https.redirectscheme.scheme=https"
       
       # --- Service Definition ---
       - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=8096"
