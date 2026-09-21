@@ -14,6 +14,8 @@ services:
     ports:
       - $GLOBAL_IP:8686:8686
     labels:
+      - "com.dokku.coredns-docker/hostname=${GLOBAL_APP_NAME}"
+
       - "traefik.enable=true"
       # --- HTTPS Router ---
       - "traefik.http.routers.${GLOBAL_APP_NAME}-secure.rule=Host(`${GLOBAL_DOMAIN}`)"

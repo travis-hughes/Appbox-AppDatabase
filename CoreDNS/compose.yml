@@ -1,14 +1,16 @@
 services:
   coredns:
     container_name: $GLOBAL_APP_NAME
-    image: coredns/coredns:latest
+    image: dokku/coredns-docker:latest
     command: -conf /Corefile
     restart: unless-stopped
     networks:
       - appbox
     ports:
-      - 53:53/tcp
-      - 53:53/udp
+      - $GLOBAL_IP:53:53/tcp
+      - $GLOBAL_IP:53:53/udp
+    volumes:
+      - /var/run/docker.sock:var/run/docker.sock:ro
     configs:
       - source: Corefile
         target: /Corefile
@@ -16,7 +18,12 @@ services:
 configs:
   Corefile:
     content: |
-      appbox:53 {
+      appbox.:53 {
+        docker {
+          zone appbox.
+          networks bridge appbox 
+        }
+
         template ANY A {
           match "^(.*\.)?appbox\.$"
           answer "{{ .Name }} 60 IN A $IP_ADDRESS"
@@ -26,6 +33,9 @@ configs:
         hosts {
           $IP_ADDRESS appbox
         }
+
+        errors
+        log
       }
 
       .:53 {
