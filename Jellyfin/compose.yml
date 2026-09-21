@@ -13,7 +13,7 @@ services:
       - $GLOBAL_APPDATA_PATH/cache:/cache
       - $GLOBAL_STORAGE_PATH/Media:/media
     labels:
-      - "com.dokku.coredns-docker/hostname=${GLOBAL_APP_NAME}"
+      # - "com.dokku.coredns-docker/hostname=${GLOBAL_APP_NAME}"
       
       - "traefik.enable=true"
       # --- HTTPS Router ---

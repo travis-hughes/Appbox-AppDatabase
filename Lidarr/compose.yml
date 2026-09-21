@@ -14,7 +14,7 @@ services:
     ports:
       - $GLOBAL_IP:8686:8686
     labels:
-      - "com.dokku.coredns-docker/hostname=${GLOBAL_APP_NAME}"
+      # - "com.dokku.coredns-docker/hostname=${GLOBAL_APP_NAME}"
 
       - "traefik.enable=true"
       # --- HTTPS Router ---
