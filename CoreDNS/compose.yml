@@ -18,13 +18,13 @@ configs:
     content: |
       appbox:53 {
         template ANY A {
-          match "^(.*\.)?$TLD\.$"
+          match "^(.*\.)?appbox\.$"
           answer "{{ .Name }} 60 IN A $IP_ADDRESS"
           fallthrough
         }
 
         hosts {
-          $IP_ADDRESS $TLD
+          $IP_ADDRESS appbox
         }
       }
 
