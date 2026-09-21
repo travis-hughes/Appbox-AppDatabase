@@ -14,8 +14,6 @@ services:
     ports:
       - $GLOBAL_IP:8686:8686
     labels:
-      # - "com.dokku.coredns-docker/hostname=${GLOBAL_APP_NAME}"
-
       - "traefik.enable=true"
       # --- HTTPS Router ---
       - "traefik.http.routers.${GLOBAL_APP_NAME}-secure.rule=Host(`${GLOBAL_DOMAIN}`)"
@@ -27,7 +25,7 @@ services:
       - "traefik.http.routers.${GLOBAL_APP_NAME}-http.rule=Host(`${GLOBAL_DOMAIN}`)"
       - "traefik.http.routers.${GLOBAL_APP_NAME}-http.entrypoints=web"
       - "traefik.http.routers.${GLOBAL_APP_NAME}-http.middlewares=redirect-to-https"
-      # - "traefik.http.middlewares=redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares=redirect-to-https.redirectscheme.scheme=https"
       
       # --- Service Definition ---
       - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=8686"

@@ -13,8 +13,6 @@ services:
       - $GLOBAL_APPDATA_PATH/cache:/cache
       - $GLOBAL_STORAGE_PATH/Media:/media
     labels:
-      # - "com.dokku.coredns-docker/hostname=${GLOBAL_APP_NAME}"
-      
       - "traefik.enable=true"
       # --- HTTPS Router ---
       - "traefik.http.routers.${GLOBAL_APP_NAME}-secure.rule=Host(`${GLOBAL_DOMAIN}`)"
@@ -26,7 +24,7 @@ services:
       - "traefik.http.routers.${GLOBAL_APP_NAME}-http.rule=Host(`${GLOBAL_DOMAIN}`)"
       - "traefik.http.routers.${GLOBAL_APP_NAME}-http.entrypoints=web"
       - "traefik.http.routers.${GLOBAL_APP_NAME}-http.middlewares=redirect-to-https"
-      # - "traefik.http.middlewares=redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares=redirect-to-https.redirectscheme.scheme=https"
       
       # --- Service Definition ---
       - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=8096"
