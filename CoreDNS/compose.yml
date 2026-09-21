@@ -10,7 +10,7 @@ services:
       - $GLOBAL_IP:53:53/tcp
       - $GLOBAL_IP:53:53/udp
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
     configs:
       - source: Corefile
         target: /Corefile
