@@ -15,10 +15,10 @@ services:
     labels:
       - "traefik.enable=true"
       # --- HTTPS Router ---
-      - "traefik.http.routers.${GLOBAL_APP_NAME}-secure.rule=Host(`${GLOBAL_DOMAIN}`)"
-      - "traefik.http.routers.${GLOBAL_APP_NAME}-secure.entrypoints=websecure"
-      - "traefik.http.routers.${GLOBAL_APP_NAME}-secure.tls=true"
-      - "traefik.http.routers.${GLOBAL_APP_NAME}-secure.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.entrypoints=websecure"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls=true"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls.certresolver=letsencrypt"
       
       # --- HTTP Router
       - "traefik.http.routers.${GLOBAL_APP_NAME}-http.rule=Host(`${GLOBAL_DOMAIN}`)"
