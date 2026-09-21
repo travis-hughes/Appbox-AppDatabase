@@ -1,7 +1,7 @@
 services:
   coredns:
     container_name: $GLOBAL_APP_NAME
-    image: dokku/coredns-docker:latest
+    image: coredns/coredns:latest
     command: -conf /Corefile
     restart: unless-stopped
     networks:
@@ -9,8 +9,6 @@ services:
     ports:
       - $GLOBAL_IP:53:53/tcp
       - $GLOBAL_IP:53:53/udp
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
     configs:
       - source: Corefile
         target: /Corefile
