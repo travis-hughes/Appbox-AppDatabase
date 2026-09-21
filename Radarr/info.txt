@@ -1,0 +1,3 @@
+title: Radarr
+description: Manage movie requests.
+logo_url: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/radarr.svg

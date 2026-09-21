@@ -1,0 +1,3 @@
+title: Filebrowser Quantum
+description: Manage your server files.
+logo_url: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/filebrowser-quantum.svg

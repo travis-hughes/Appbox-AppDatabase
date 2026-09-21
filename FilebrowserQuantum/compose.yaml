@@ -1,0 +1,24 @@
+services:
+  filebrowser:
+    container_name: filebrowser-quantum
+    image: gtstef/filebrowser:stable
+    restart: unless-stopped
+    environment:
+      - FILEBROWSER_ADMIN_PASSWORD=$GLOBAL_DEFAULT_PASSWORD
+    networks:
+      public:
+        ipv4_address: 14.14.14.4
+    volumes:
+      - $GLOBAL_STORAGE_PATH:/folder
+      - $GLOBAL_STORAGE_PATH/AppData/filebrowser-quantum:/home/filebrowser/data
+    ports:
+      - $GLOBAL_IP:81:80
+
+
+  
+
+
+networks:
+  public:
+    name: public
+    external: true

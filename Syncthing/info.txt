@@ -1,0 +1,3 @@
+title: Syncthing
+description: Sync files across devices.
+logo_url: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/syncthing.svg

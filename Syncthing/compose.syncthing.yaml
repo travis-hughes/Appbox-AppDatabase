@@ -1,0 +1,40 @@
+services:
+  syncthing:
+    container_name: $GLOBAL_APP_NAME
+    image: lscr.io/linuxserver/syncthing:latest
+    hostname: syncthing
+    restart: unless-stopped
+    networks:
+      - appbox
+    environment:
+      - PUID=$GLOBAL_PUID
+      - PGID=$GLOBAL_PGID
+      - TZ=$GLOBAL_TZ
+    volumes:
+      - $GLOBAL_APPDATA_PATH:/config
+      - $GLOBAL_STORAGE_PATH/Media/Sync:/sync-data
+    ports:
+      - $GLOBAL_IP:8384:8384
+      - 22000:22000/tcp
+      - 22000:22000/udp
+      - 21027:21027/udp
+    labels:
+      - "traefik.enable=true"
+      # --- HTTPS Router ---
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.entrypoints=websecure"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls=true"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls.certresolver=letsencrypt"
+      
+      # --- HTTP Router
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.entrypoints=web"
+      
+      # --- Service Definition
+      - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=8384"
+
+
+networks:
+  appbox:
+    name: appbox
+    external: true
