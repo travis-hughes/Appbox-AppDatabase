@@ -1,6 +1,6 @@
 services:
   traefik:
-    container_name: appbox-reverse-proxy
+    container_name: $GLOBAL_APP_NAME
     image: traefik:latest
     command:
       - "--log.level=INFO"

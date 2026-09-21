@@ -1,6 +1,6 @@
 services:
   coredns:
-    container_name: appbox-dns
+    container_name: $GLOBAL_APP_NAME
     image: coredns/coredns:latest
     command: -conf /Corefile
     restart: unless-stopped
