@@ -1,0 +1,2 @@
+title: CoreDNS
+is_internal: true

@@ -1,34 +1,33 @@
 services:
   jellyfin:
-    container_name: $APP_NAME
+    container_name: $GLOBAL_APP_NAME
     image: jellyfin/jellyfin:latest
-    hostname: $APP_NAME
+    hostname: $GLOBAL_APP_NAME
     restart: unless-stopped
     networks:
       - appbox
     ports:
-      - $IP_ADDRESS:8096:8096
+      - $GLOBAL_IP:8096:8096
     volumes:
-      - $APPDATA_PATH/config:/config
-      - $APPDATA_PATH/cache:/cache
-      - $APPDATA_PATH/Media:/media
+      - $GLOBAL_APPDATA_PATH/config:/config
+      - $GLOBAL_APPDATA_PATH/cache:/cache
+      - $GLOBAL_STORAGE_PATH/Media:/media
     labels:
-      - "com.dokku.coredns-docker/hostname=$APP_NAME"
       - "traefik.enable=true"
       # --- HTTPS Router ---
-      - "traefik.http.routers.${APP_NAME}-secure.rule=Host(`${DOMAIN_NAME}`)"
-      - "traefik.http.routers.${APP_NAME}-secure.entrypoints=websecure"
-      - "traefik.http.routers.${APP_NAME}-secure.tls=true"
-      - "traefik.http.routers.${APP_NAME}-secure.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-secure.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-secure.entrypoints=websecure"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-secure.tls=true"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-secure.tls.certresolver=letsencrypt"
       
       # --- HTTP Router (with automatic HTTPS redirect) ---
-      - "traefik.http.routers.${APP_NAME}-http.rule=Host(`${DOMAIN_NAME}`)"
-      - "traefik.http.routers.${APP_NAME}-http.entrypoints=web"
-      - "traefik.http.routers.${APP_NAME}-http.middlewares=redirect-to-https"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.entrypoints=web"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.middlewares=redirect-to-https"
       - "traefik.http.middlewares=redirect-to-https.redirectscheme.scheme=https"
       
       # --- Service Definition ---
-      - "traefik.http.services.${APP_NAME}.loadbalancer.server.port=8096"
+      - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=8096"
 
 
 networks:

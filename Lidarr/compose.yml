@@ -1,15 +1,31 @@
 services:
   lidarr:
-    container_name: lidarr
+    container_name: $GLOBAL_APP_NAME
     image: lscr.io/linuxserver/lidarr:latest
+    restart: unless-stopped
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - $APPDATA_PATH/config:/config
-      - $STORAGE_PATH/Media/Music:/music
-      - $STORAGE_PATH/Media/Downloads:/downloads
+      - $GLOBAL_APPDATA_PATH/config:/config
+      - $GLOBAL_STORAGE_PATH/Media/Music:/music
+      - $GLOBAL_STORAGE_PATH/Media/Downloads:/downloads
     ports:
-      - 8686:8686
-    restart: unless-stopped
+      - $GLOBAL_IP:8686:8686
+    labels:
+      - "traefik.enable=true"
+      # --- HTTPS Router ---
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-secure.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-secure.entrypoints=websecure"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-secure.tls=true"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-secure.tls.certresolver=letsencrypt"
+      
+      # --- HTTP Router (with automatic HTTPS redirect) ---
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.entrypoints=web"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.middlewares=redirect-to-https"
+      - "traefik.http.middlewares=redirect-to-https.redirectscheme.scheme=https"
+      
+      # --- Service Definition ---
+      - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=8686"
