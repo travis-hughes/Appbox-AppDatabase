@@ -6,19 +6,14 @@ services:
     environment:
       - FILEBROWSER_ADMIN_PASSWORD=$GLOBAL_DEFAULT_PASSWORD
     networks:
-      public:
-        ipv4_address: 14.14.14.4
+      - appbox
     volumes:
       - $GLOBAL_STORAGE_PATH:/folder
       - $GLOBAL_STORAGE_PATH/AppData/filebrowser-quantum:/home/filebrowser/data
     ports:
       - $GLOBAL_IP:81:80
 
-
-  
-
-
 networks:
-  public:
-    name: public
+  appbox:
+    name: appbox
     external: true
