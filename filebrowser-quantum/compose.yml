@@ -3,7 +3,7 @@ services:
     container_name: $GLOBAL_APP_NAME
     image: gtstef/filebrowser:stable
     restart: unless-stopped
-    environment:
+    # environment:
       # - FILEBROWSER_ADMIN_PASSWORD=$GLOBAL_DEFAULT_PASSWORD
     networks:
       - appbox
