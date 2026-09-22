@@ -1,17 +1,33 @@
 services:
   filebrowser:
-    container_name: filebrowser-quantum
+    container_name: $GLOBAL_APP_NAME
     image: gtstef/filebrowser:stable
     restart: unless-stopped
     environment:
-      - FILEBROWSER_ADMIN_PASSWORD=$GLOBAL_DEFAULT_PASSWORD
+      # - FILEBROWSER_ADMIN_PASSWORD=$GLOBAL_DEFAULT_PASSWORD
     networks:
       - appbox
     volumes:
       - $GLOBAL_STORAGE_PATH:/folder
-      - $GLOBAL_STORAGE_PATH/AppData/filebrowser-quantum:/home/filebrowser/data
+      - $GLOBAL_APPDATA_PATH:/home/filebrowser/data
     ports:
       - $GLOBAL_IP:81:80
+    configs:
+      - source: config
+        target: /home/filebrowser/data/config.yaml
+
+configs:
+  config:
+    content: |
+      server:
+        cacheDir: /home/filebrowser/data/tmp # using the data volume so it can persist across restarts
+        sources:
+          - path: /folder # Do not use a root "/" directory or include the "/var" folder
+            config:
+              defaultEnabled: true
+
+
+
 
 networks:
   appbox:
