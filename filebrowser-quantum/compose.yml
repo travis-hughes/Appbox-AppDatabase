@@ -2,6 +2,7 @@ services:
   filebrowser:
     container_name: $GLOBAL_APP_NAME
     image: gtstef/filebrowser:stable
+    user: 0:0
     restart: unless-stopped
     # environment:
       # - FILEBROWSER_ADMIN_PASSWORD=$GLOBAL_DEFAULT_PASSWORD
