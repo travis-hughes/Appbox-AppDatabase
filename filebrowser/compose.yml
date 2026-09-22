@@ -21,9 +21,9 @@ configs:
   config:
     content: |
       server:
-        cacheDir: /tmp/filebrowser # using the data volume so it can persist across restarts
+        cacheDir: /tmp/filebrowser
         sources:
-          - path: /folder # Do not use a root "/" directory or include the "/var" folder
+          - path: /folder
             config:
               defaultEnabled: true
 
