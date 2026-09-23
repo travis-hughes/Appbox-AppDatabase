@@ -1,6 +1,6 @@
 services:
   portainer:
-    container_name: portainer
+    container_name: $GLOBAL_APP_NAME
     image: portainer/portainer-ce:lts
     command: --no-setup-token
     restart: on-failure
@@ -9,3 +9,17 @@ services:
       - $GLOBAL_APPDATA_PATH/data:/data
     ports:
       - $GLOBAL_IP:9443:9443
+    labels:
+      - "traefik.enable=true"
+      # --- HTTPS Router ---
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.entrypoints=websecure"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls=true"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls.certresolver=letsencrypt"
+      
+      # --- HTTP Router
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.entrypoints=web"
+      
+      # --- Service Definition
+      - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=9000"
