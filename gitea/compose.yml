@@ -1,0 +1,59 @@
+services:
+  gitea:
+    container_name: gitea
+    image: docker.gitea.com/gitea:1.27.3
+    restart: always
+    ports:
+      - $GLOBAL_IP:24:24
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - TZ=Europe/London
+
+      - GITEA__database__DB_TYPE=mysql
+      - GITEA__database__HOST=gitea-mysql:3306
+      - GITEA__database__NAME=gitea
+      - GITEA__database__USER=gitea
+      - GITEA__database__PASSWD=$GITEA_DATABASE_PASSWORD
+
+      - GITEA__server__DOMAIN=gitea.$GLOBAL_DOMAIN
+      - GITEA__server__ROOT_URL=https://gitea.$GLOBAL_DOMAIN
+      - GITEA__server__SSH_PORT=24
+      - GITEA__server__SSH_LISTEN_PORT=24
+      - GITEA__service__DISABLE_REGISTRATION=true
+      - GITEA__service__NO_REPLY_ADDRESS=noreply.$GLOBAL_DOMAIN
+
+      - GITEA__openid__ENABLE_OPENID_SIGNIN=false
+    networks:
+      - gitea
+      - appbox
+    volumes:
+      - $GLOBAL_APPDATA_PATH/gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - gitea-mysql
+
+  gitea-mysql:
+    container_name: gitea-mysql
+    image: docker.io/library/mysql:8
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=$GITEA_DATABASE_PASSWORD_ROOT
+      - MYSQL_USER=gitea
+      - MYSQL_PASSWORD=$GITEA_DATABASE_PASSWORD
+      - MYSQL_DATABASE=gitea
+    networks:
+      - gitea
+    volumes:
+      - $GLOBAL_APPDATA_PATH/database:/var/lib/mysql
+
+
+
+networks:
+  appbox:
+    name: appbox
+    external: true
+  gitea:
+    name: gitea
+    external: false
