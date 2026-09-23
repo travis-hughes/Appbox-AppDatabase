@@ -1,0 +1,12 @@
+services:
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:lts
+    command: --admin-password-file=/default-password
+    restart: on-failure
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $GLOBAL_APPDATA_PATH/data:/data
+      - $GLOBAL_APPDATA_PATH/default-password:/default-password
+    ports:
+      - $GLOBAL_IP:9443:9443
