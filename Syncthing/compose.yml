@@ -4,8 +4,6 @@ services:
     image: lscr.io/linuxserver/syncthing:latest
     hostname: syncthing
     restart: unless-stopped
-    networks:
-      - appbox
     environment:
       - PUID=$GLOBAL_PUID
       - PGID=$GLOBAL_PGID
@@ -32,9 +30,3 @@ services:
       
       # --- Service Definition
       - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=8384"
-
-
-networks:
-  appbox:
-    name: appbox
-    external: true

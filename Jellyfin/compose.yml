@@ -4,8 +4,6 @@ services:
     image: jellyfin/jellyfin:latest
     hostname: $GLOBAL_APP_NAME
     restart: unless-stopped
-    networks:
-      - appbox
     ports:
       - $GLOBAL_IP:8096:8096
     volumes:
@@ -26,9 +24,3 @@ services:
       
       # --- Service Definition
       - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=8096"
-
-
-networks:
-  appbox:
-    name: appbox
-    external: true
