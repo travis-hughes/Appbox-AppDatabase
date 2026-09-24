@@ -1,3 +1,0 @@
-title: Gitea
-Description: Store all your git repositories.
-logo_url: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/gitea.svg

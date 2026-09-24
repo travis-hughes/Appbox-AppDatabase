@@ -24,7 +24,7 @@ services:
       - "traefik.http.routers.${GLOBAL_APP_NAME}-http.entrypoints=web"
       
       # --- Service Definition
-      - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=9443"
+      - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=9000"
 
 
 networks:
