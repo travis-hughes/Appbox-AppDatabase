@@ -26,6 +26,7 @@ services:
       - GITEA__openid__ENABLE_OPENID_SIGNIN=false
     networks:
       - gitea
+      - appbox
     volumes:
       - $GLOBAL_APPDATA_PATH/gitea:/data
       - /etc/timezone:/etc/timezone:ro
@@ -50,6 +51,9 @@ services:
 
 
 networks:
+  appbox:
+    name: appbox
+    external: true
   gitea:
     name: gitea
     external: false

@@ -4,6 +4,8 @@ services:
     image: coredns/coredns:latest
     command: -conf /Corefile
     restart: unless-stopped
+    networks:
+      - appbox
     ports:
       - $GLOBAL_IP:53:53/tcp
       - $GLOBAL_IP:53:53/udp
@@ -35,3 +37,9 @@ configs:
           errors
           log
       }
+
+
+networks:
+  appbox:
+    name: appbox
+    external: true

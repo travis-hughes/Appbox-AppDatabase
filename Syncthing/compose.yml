@@ -16,6 +16,8 @@ services:
       - 22000:22000/tcp
       - 22000:22000/udp
       - 21027:21027/udp
+    networks:
+      - appbox
     labels:
       - "traefik.enable=true"
       # --- HTTPS Router ---
@@ -30,3 +32,9 @@ services:
       
       # --- Service Definition
       - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=8384"
+
+
+networks:
+  appbox:
+    name: appbox
+    external: true

@@ -6,6 +6,8 @@ services:
     restart: unless-stopped
     ports:
       - $GLOBAL_IP:8096:8096
+    networks:
+      - appbox
     volumes:
       - $GLOBAL_APPDATA_PATH/config:/config
       - $GLOBAL_APPDATA_PATH/cache:/cache
@@ -24,3 +26,9 @@ services:
       
       # --- Service Definition
       - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=8096"
+
+
+networks:
+  appbox:
+    name: appbox
+    external: true

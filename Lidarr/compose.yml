@@ -13,6 +13,8 @@ services:
       - $GLOBAL_STORAGE_PATH/Media/Downloads:/downloads
     ports:
       - $GLOBAL_IP:8686:8686
+    networks:
+      - appbox
     labels:
       - "traefik.enable=true"
       # --- HTTPS Router ---
@@ -27,3 +29,9 @@ services:
       
       # --- Service Definition
       - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=8686"
+
+
+networks:
+  appbox:
+    name: appbox
+    external: true

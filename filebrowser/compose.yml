@@ -43,8 +43,6 @@ configs:
               defaultEnabled: true
 
 
-
-
 networks:
   appbox:
     name: appbox

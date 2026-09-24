@@ -9,6 +9,8 @@ services:
       - $GLOBAL_APPDATA_PATH/data:/data
     ports:
       - $GLOBAL_IP:9443:9443
+    networks:
+      - appbox
     labels:
       - "traefik.enable=true"
       # --- HTTPS Router ---
@@ -23,3 +25,9 @@ services:
       
       # --- Service Definition
       - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=9000"
+
+
+networks:
+  appbox:
+    name: appbox
+    external: false
