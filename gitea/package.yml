@@ -1,6 +1,6 @@
 title: Gitea
 description: Store all your git repositories.
-logo_url: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/gitea.svg
+icon_url: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/gitea.svg
 environment_variables:
   - label: "Gitea Database Password"
     key: "GITEA_DATABASE_PASSWORD"
