@@ -5,4 +5,4 @@ environment_variable_templates:
   - label: "Gitea Database Password"
     key: "GITEA_DATABASE_PASSWORD"
     autoFill: true
-    showOnFrontend: false
+    showOnFrontend: true
