@@ -1,0 +1,22 @@
+services:
+  clamav:
+    container_name: clamav
+    image: clamav/clamav:latest
+    restart: unless-stopped
+    ports:
+      - $GLOBAL_IP:3310:3310
+    volumes:
+      - $GLOBAL_STORAGE_PATH:/var/lib/clamav
+    environment:
+      # Optional configurations (Uncomment to adjust limits)
+      # - CLAMD_CONF_MaxFileSize=10000M
+      # - CLAMD_CONF_MaxScanSize=10000M
+      - CLAMD_CONF_StreamMaxLength=250M
+    healthcheck:
+      # Checks if the clamd daemon is responsive on port 3310
+      test: ["CMD-SHELL", "nc -z localhost 3310 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      # Gives ClamAV time to download initial virus definitions on first boot
+      start_period: 120s
