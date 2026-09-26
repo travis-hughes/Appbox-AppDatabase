@@ -14,7 +14,7 @@ services:
       PHOTOPRISM_ADMIN_USERNAME: $PHOTOPRIZM_DEFAULT_USERNAME
       PHOTOPRISM_ADMIN_PASSWORD: $PHOTOPRIZM_DEFAULT_PASSWORD # Minimum 8 characters
       PHOTOPRISM_AUTH_MODE: "password" # Use "public" to disable authentication
-      PHOTOPRISM_SITE_URL: $GLOBAL_DOMAIN
+      PHOTOPRISM_SITE_URL: https://$GLOBAL_DOMAIN
       PHOTOPRISM_ORIGINALS_LIMIT: 0 # File size limit in MB (0 for unlimited)
       PHOTOPRISM_HTTP_COMPRESSION: "gzip"
       PHOTOPRISM_DEBUG: "false"
