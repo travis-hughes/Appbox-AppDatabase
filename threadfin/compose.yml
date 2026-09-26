@@ -1,0 +1,28 @@
+services:
+  threadfin:
+    container_name: $GLOBAL_APP_NAME
+    image: fyb3roptik/threadfin
+    restart: unless-stopped
+    ports:
+      - $GLOBAL_IP:34400:34400
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=Europe/London
+    volumes:
+      - $GLOBAL_APPDATA_PATH/conf:/home/threadfin/conf
+      - $GLOBAL_APPDATA_PATH/temp:/tmp/threadfin:rw
+    labels:
+      - "traefik.enable=true"
+      # --- HTTPS Router ---
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.entrypoints=websecure"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls=true"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls.certresolver=letsencrypt"
+      
+      # --- HTTP Router
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.entrypoints=web"
+      
+      # --- Service Definition
+      - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=34400"
