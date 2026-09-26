@@ -6,7 +6,3 @@ environment_variable_templates:
     key: "GITEA_DATABASE_PASSWORD"
     auto_fill: true
     show_on_frontend: false
-  - label: "Root Database Password"
-    key: "GITEA_DATABASE_PASSWORD_ROOT"
-    auto_fill: true
-    show_on_frontend: false

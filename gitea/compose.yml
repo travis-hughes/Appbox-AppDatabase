@@ -11,6 +11,7 @@ services:
       - USER_GID=1000
       - TZ=Europe/London
 
+      # - GITEA__security__INSTALL_LOCK=true
       - GITEA__database__DB_TYPE=mysql
       - GITEA__database__HOST=gitea-mysql:3306
       - GITEA__database__NAME=gitea
@@ -54,7 +55,7 @@ services:
     image: docker.io/library/mysql:8
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=$GITEA_DATABASE_PASSWORD_ROOT
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_USER=gitea
       - MYSQL_PASSWORD=$GITEA_DATABASE_PASSWORD
       - MYSQL_DATABASE=gitea
