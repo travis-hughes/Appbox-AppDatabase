@@ -4,6 +4,9 @@ services:
     container_name: $GLOBAL_APP_NAME
     image: pihole/pihole:latest
     restart: unless-stopped
+    networks:
+      appbox:
+        ipv4_address: 172.30.0.100
     ports:
       - $GLOBAL_IP:53:53/tcp
       - $GLOBAL_IP:53:53/udp
@@ -32,3 +35,9 @@ services:
       
       # --- Service Definition
       - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=80"
+
+
+networks:
+  appbox:
+    name: appbox
+    external: false
