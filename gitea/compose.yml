@@ -57,7 +57,7 @@ services:
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_USER=gitea
-      - MYSQL_PASSWORD=$GITEA_DATABASE_PASSWORD
+      - MYSQL_PASSWORD=${GITEA_DATABASE_PASSWORD}
       - MYSQL_DATABASE=gitea
     networks:
       - gitea
