@@ -4,9 +4,9 @@ icon_url: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/gitea.svg
 environment_variable_templates:
   - label: "Database Password"
     key: "GITEA_DATABASE_PASSWORD"
-    autoFill: true
-    showOnFrontend: false
+    auto_fill: true
+    show_on_frontend: false
   - label: "Root Database Password"
     key: "GITEA_DATABASE_PASSWORD_ROOT"
-    autoFill: true
-    showOnFrontend: false
+    auto_fill: true
+    show_on_frontend: false

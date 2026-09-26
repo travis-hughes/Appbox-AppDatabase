@@ -4,13 +4,13 @@ icon_url: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/samba-serv
 environment_variable_templates:
   - label: "Share Name"
     key: "SMB_SHARE_NAME"
-    autoFill: false
-    showOnFrontend: true
+    auto_fill: false
+    show_on_frontend: true
   - label: "Username"
     key: "SMB_USERNAME"
-    autoFill: false
-    showOnFrontend: true
+    auto_fill: false
+    show_on_frontend: true
   - label: "Password"
     key: "SMB_PASSWORD"
-    autoFill: false
-    showOnFrontend: true
+    auto_fill: false
+    show_on_frontend: true
