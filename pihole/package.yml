@@ -1,0 +1,8 @@
+title: Pi Hole
+description: Block ads on your local network.
+icon_url: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/pi-hole.svg
+environment_variable_templates:
+  - label: "Password"
+    key: "PIHOLE_PASSWORD"
+    autoFill: true
+    showOnFrontend: true

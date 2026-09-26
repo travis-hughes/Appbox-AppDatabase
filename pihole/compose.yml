@@ -11,7 +11,7 @@ services:
     environment:
       TZ: Europe/London
       FTLCONF_webserver_api_password: $PIHOLE_PASSWORD
-      FTLCONF_dns_listeningMode: 'ALL'
+      FTLCONF_dns_listeningMode: ALL
     volumes:
       - $GLOBAL_APPDATA_PATH:/etc/pihole
     cap_add:
