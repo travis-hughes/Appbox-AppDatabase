@@ -1,0 +1,37 @@
+services:
+  stirling-pdf:
+    container_name: $GLOBAL_APP_NAME
+    image: docker.stirlingpdf.com/stirlingtools/stirling-pdf:latest
+    restart: unless-stopped
+    networks:
+      - appbox
+    ports:
+      - $GLOBAL_IP:8080:8080
+    volumes:
+      - $GLOBAL_APPDATA_PATH/tessdata:/usr/share/tessdata
+      - $GLOBAL_APPDATA_PATH/configs:/configs
+      - $GLOBAL_APPDATA_PATH/logs:/logs
+      - $GLOBAL_APPDATA_PATH/pipeline:/pipeline
+    environment:
+      - SECURITY_ENABLELOGIN=true
+      - SYSTEM_DEFAULTLOCALE=en-GB
+    labels:
+      - "traefik.enable=true"
+      # --- HTTPS Router ---
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.entrypoints=websecure"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls=true"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls.certresolver=letsencrypt"
+      
+      # --- HTTP Router
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.entrypoints=web"
+      
+      # --- Service Definition
+      - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=8080"
+
+
+networks:
+  appbox:
+    name: appbox
+    external: true

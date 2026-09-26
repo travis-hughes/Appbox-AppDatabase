@@ -1,0 +1,33 @@
+services:
+  nginx:
+    container_name: $GLOBAL_APP_NAME
+    image: nginx:latest
+    restart: unless-stopped
+    networks:
+      - appbox
+    volumes:
+      - $GLOBAL_STORAGE_PATH/Media/Web:/usr/share/nginx/html
+    ports:
+      - $GLOBAL_IP:82:80
+    environment:
+      - NGINX_HOST=$GLOBAL_DOMAIN
+      - NGINX_PORT=80
+    labels:
+      - "traefik.enable=true"
+      # --- HTTPS Router ---
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.entrypoints=websecure"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls=true"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls.certresolver=letsencrypt"
+      
+      # --- HTTP Router
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.entrypoints=web"
+      
+      # --- Service Definition
+      - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=80"
+
+networks:
+  appbox:
+    name: appbox
+    external: true

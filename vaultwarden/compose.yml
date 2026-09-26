@@ -1,0 +1,30 @@
+services:
+  server:
+    container_name: $GLOBAL_APP_NAME
+    image: vaultwarden/server:latest
+    ports:
+      - $GLOBAL_IP:83:80
+    networks:
+      - appbox
+    volumes:
+      - $GLOBAL_APPDATA_PATH:/data
+    labels:
+      - "traefik.enable=true"
+      # --- HTTPS Router ---
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.entrypoints=websecure"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls=true"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls.certresolver=letsencrypt"
+      
+      # --- HTTP Router
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.entrypoints=web"
+      
+      # --- Service Definition
+      - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=80"
+
+
+networks:
+  appbox:
+    name: appbox
+    external: true
