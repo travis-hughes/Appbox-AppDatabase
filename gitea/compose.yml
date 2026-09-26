@@ -5,6 +5,7 @@ services:
     restart: always
     ports:
       - $GLOBAL_IP:24:24
+      - $GLOBAL_IP:3000:3000
     environment:
       - USER_UID=1000
       - USER_GID=1000
@@ -33,6 +34,20 @@ services:
       - /etc/localtime:/etc/localtime:ro
     depends_on:
       - gitea-mysql
+    labels:
+      - "traefik.enable=true"
+      # --- HTTPS Router ---
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.entrypoints=websecure"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls=true"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls.certresolver=letsencrypt"
+      
+      # --- HTTP Router
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.entrypoints=web"
+      
+      # --- Service Definition
+      - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=3000"
 
   gitea-mysql:
     container_name: gitea-mysql
