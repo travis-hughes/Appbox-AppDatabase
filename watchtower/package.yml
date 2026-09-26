@@ -1,2 +1,3 @@
 title: watchtower
-is_internal: true
+description: Update your apps automatically.
+icon_url: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/watchtower.svg
