@@ -4,7 +4,7 @@ services:
     image: clamav/clamav:latest
     restart: unless-stopped
     volumes:
-      - $GLOBAL_STORAGE_PATH:/var/lib/clamav
+      - $GLOBAL_APPDATA_PATH:/var/lib/clamav
       - $GLOBAL_STORAGE_PATH:/scan:ro
     environment:
       - CLAMD_CONF_MaxFileSize=10000M
