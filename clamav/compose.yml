@@ -7,9 +7,8 @@ services:
       - $GLOBAL_STORAGE_PATH:/var/lib/clamav
       - $GLOBAL_STORAGE_PATH:/scan:ro
     environment:
-      # Optional configurations (Uncomment to adjust limits)
-      # - CLAMD_CONF_MaxFileSize=10000M
-      # - CLAMD_CONF_MaxScanSize=10000M
+      - CLAMD_CONF_MaxFileSize=10000M
+      - CLAMD_CONF_MaxScanSize=10000M
       - CLAMD_CONF_StreamMaxLength=250M
     healthcheck:
       # Checks if the clamd daemon is responsive on port 3310
