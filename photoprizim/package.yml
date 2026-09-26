@@ -1,0 +1,12 @@
+title: Photoprizm
+description: Host all your pictures in one place.
+icon_url: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/photoprism-light.svg
+environment_variable_templates:
+  - label: "Default Username"
+    key: "PHOTOPRIZM_DEFAULT_USERNAME"
+    auto_fill: false
+    show_on_frontend: true
+  - label: "Default Password"
+    key: "PHOTOPRIZM_DEFAULT_PASSWORD"
+    auto_fill: false
+    show_on_frontend: true

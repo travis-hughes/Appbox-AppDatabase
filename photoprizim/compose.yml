@@ -1,0 +1,43 @@
+services:
+  photoprism:
+    container_name: $GLOBAL_APP_NAME
+    image: photoprism/photoprism:latest
+    restart: unless-stopped
+    security_opt:
+      - seccomp:unconfined
+      - apparmor:unconfined
+    ports:
+      - $GLOBAL_IP:2342:2342
+    networks:
+      - appbox
+    environment:
+      PHOTOPRISM_ADMIN_USERNAME: $PHOTOPRIZM_DEFAULT_USERNAME
+      PHOTOPRISM_ADMIN_PASSWORD: $PHOTOPRIZM_DEFAULT_PASSWORD # Minimum 8 characters
+      PHOTOPRISM_AUTH_MODE: "password" # Use "public" to disable authentication
+      PHOTOPRISM_SITE_URL: $GLOBAL_DOMAIN
+      PHOTOPRISM_ORIGINALS_LIMIT: 0 # File size limit in MB (0 for unlimited)
+      PHOTOPRISM_HTTP_COMPRESSION: "gzip"
+      PHOTOPRISM_DEBUG: "false"
+    volumes:
+      - $GLOBAL_STORAGE_PATH/Media/Pictures:/photoprism/originals
+      - $GLOBAL_APPDATA_PATH:/photoprism/storage
+    labels:
+      - "traefik.enable=true"
+      # --- HTTPS Router ---
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.entrypoints=websecure"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls=true"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-https.tls.certresolver=letsencrypt"
+      
+      # --- HTTP Router
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.rule=Host(`${GLOBAL_DOMAIN}`)"
+      - "traefik.http.routers.${GLOBAL_APP_NAME}-http.entrypoints=web"
+      
+      # --- Service Definition
+      - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=2342"
+
+
+networks:
+  appbox:
+    name: appbox
+    external: true

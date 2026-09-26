@@ -1,0 +1,12 @@
+title: Open SSH
+description: SSH to your appbox.
+icon_url: https://cdn.jsdelivr.net/gh/selfhst/icons/png/openssh.png
+environment_variable_templates:
+  - label: "Username"
+    key: "SSH_USERNAME"
+    auto_fill: false
+    show_on_frontend: true
+  - label: "Password"
+    key: "SSH_PASSWORD"
+    auto_fill: false
+    show_on_frontend: true

@@ -1,0 +1,18 @@
+services:
+  openssh-server:
+    container_name: openssh-server
+    image: lscr.io/linuxserver/openssh-server:latest
+    hostname: openssh-server
+    restart: unless-stopped
+    ports:
+      - $GLOBAL_IP:2222:2222
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - SUDO_ACCESS=false
+      - PASSWORD_ACCESS=true
+      - USER_PASSWORD=$SSH_PASSWORD
+      - USER_NAME=$SSH_USERNAME
+    volumes:
+      - $GLOBAL_APPDATA_PATH:/config
