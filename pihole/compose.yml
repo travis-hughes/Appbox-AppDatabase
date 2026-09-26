@@ -1,16 +1,23 @@
+# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
 services:
-  portainer:
+  pihole:
     container_name: $GLOBAL_APP_NAME
-    image: portainer/portainer-ce:lts
-    command: --no-setup-token
-    restart: on-failure
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - $GLOBAL_APPDATA_PATH/data:/data
+    image: pihole/pihole:latest
+    restart: unless-stopped
     ports:
-      - $GLOBAL_IP:9443:9443
-    networks:
-      - appbox
+      - $GLOBAL_IP:53:53/tcp
+      - $GLOBAL_IP:53:53/udp
+      - $GLOBAL_IP:81:80/tcp
+    environment:
+      TZ: Europe/London
+      FTLCONF_webserver_api_password: $PIHOLE_PASSWORD
+      FTLCONF_dns_listeningMode: 'ALL'
+    volumes:
+      - $GLOBAL_APPDATA_PATH:/etc/pihole
+    cap_add:
+      - NET_ADMIN
+      - SYS_TIME
+      - SYS_NICE
     labels:
       - "traefik.enable=true"
       # --- HTTPS Router ---
@@ -24,10 +31,4 @@ services:
       - "traefik.http.routers.${GLOBAL_APP_NAME}-http.entrypoints=web"
       
       # --- Service Definition
-      - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=9000"
-
-
-networks:
-  appbox:
-    name: appbox
-    external: false
+      - "traefik.http.services.${GLOBAL_APP_NAME}.loadbalancer.server.port=80"
