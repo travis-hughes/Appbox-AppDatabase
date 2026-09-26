@@ -1,0 +1,16 @@
+title: Samba
+description: Manage your files using a Samba share.
+icon_url: https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/samba-server.svg
+environment_variable_templates:
+  - label: "Share Name"
+    key: "SMB_SHARE_NAME"
+    autoFill: false
+    showOnFrontend: true
+  - label: "Username"
+    key: "SMB_USERNAME"
+    autoFill: false
+    showOnFrontend: true
+  - label: "Password"
+    key: "SMB_PASSWORD"
+    autoFill: false
+    showOnFrontend: true

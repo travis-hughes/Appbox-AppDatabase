@@ -1,0 +1,13 @@
+services:
+  samba:
+    container_name: $GLOBAL_APP_NAME
+    image: dockurr/samba
+    restart: always
+    environment:
+      NAME: $SMB_SHARE_NAME
+      USER: $SMB_USERNAME
+      PASS: $SMB_PASSWORD
+    ports:
+      - $GLOBAL_IP:445:445
+    volumes:
+      - $GLOBAL_STORAGE_PATH:/shared
