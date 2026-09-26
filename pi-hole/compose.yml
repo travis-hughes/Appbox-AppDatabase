@@ -3,6 +3,7 @@ services:
   pihole:
     container_name: $GLOBAL_APP_NAME
     image: pihole/pihole:latest
+    hostname: $GLOBAL_APP_NAME
     restart: unless-stopped
     networks:
       appbox:
